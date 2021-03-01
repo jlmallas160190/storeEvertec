@@ -16,10 +16,10 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('customer_name');
-            $table->string('customer_mobile');
-            $table->string('customer_email');
-            $table->bigInteger('customer_id')->unsigned();
+            $table->string('customer_name')->nullable();
+            $table->string('customer_mobile')->nullable();
+            $table->string('customer_email')->nullable();
+            $table->bigInteger('customer_id')->unsigned()->nullable();
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->enum('status', [OrderStatus::CREATED, OrderStatus::PAYED, OrderStatus::REJECTED])->default(OrderStatus::CREATED);
             $table->decimal('subtotal', 12, 2)->nullable();

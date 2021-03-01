@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'Evertec',
+    'title' => 'AdminLTE 3',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -186,15 +186,14 @@ return [
     |
     */
 
-    // 'use_route_url' => false,
+    'use_route_url' => false,
     'dashboard_url' => '/',
     'logout_url' => 'logout',
     'login_url' => 'login',
-    'register_url' => 'null',
+    'register_url' => 'register',
     'password_reset_url' => 'password/reset',
     'password_email_url' => 'password/email',
     'profile_url' => false,
-    'logout_method' => null,
 
     /*
     |--------------------------------------------------------------------------

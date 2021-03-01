@@ -18,11 +18,11 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('username');
             $table->string('email')->unique();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('document_number');
-            $table->string('mobile');
-            $table->string('address');
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('document_number')->nullable();
+            $table->string('mobile')->nullable();
+            $table->string('address')->nullable();
             $table->enum('type', [UserType::ADMIN, UserType::CUSTOMER])->default(UserType::ADMIN);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
