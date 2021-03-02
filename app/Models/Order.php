@@ -2,12 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Customer;
-use App\Models\Item;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Order extends Model
+class Order extends BaseModel
 {
     use SoftDeletes;
 
