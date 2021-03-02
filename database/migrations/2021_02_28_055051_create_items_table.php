@@ -23,6 +23,7 @@ class CreateItemsTable extends Migration
             $table->decimal('subtotal', 12, 2)->nullable();
             $table->decimal('total', 12, 2)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

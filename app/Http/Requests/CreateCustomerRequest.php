@@ -23,11 +23,12 @@ class CreateCustomerRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+          return [
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
+            'document_number' => 'required',
             'mobile' => 'required',
             'address' => 'required',
         ];
