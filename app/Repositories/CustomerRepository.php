@@ -15,7 +15,7 @@ class CustomerRepository extends BaseRepository
         $this->user = $user;
     }
     /**
-     * Save a custpmer
+     * Save a customer
      */
     public function store(array $data = [])
     {
@@ -34,7 +34,7 @@ class CustomerRepository extends BaseRepository
     }
 
     /**
-     * Fetch a customr by id.
+     * Fetch a customer by id.
      */
     private function findById($id)
     {

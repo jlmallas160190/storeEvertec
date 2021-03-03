@@ -227,15 +227,15 @@ return [
         'MAIN NAVIGATION',
         [
             'text' => 'Clientes',
-            'url' => 'order/index',
+            'url' => 'customers/index',
             'icon' => 'glyphicon glyphicon-shopping-cart',
-            'active' => ['customer/*'],
+            'active' => ['customers/*'],
         ],
         [
             'text' => 'Órdenes',
-            'url' => 'mover/index',
+            'url' => 'orders/index',
             'icon' => 'fa fa-truck',
-            'active' => ['order/*'],
+            'active' => ['orders/*'],
         ],
     ],
 
