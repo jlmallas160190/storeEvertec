@@ -19,7 +19,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"jomasloja@gmail.com\",\n    \"password\": \"evertec\",\n    \"first_name\": \"Jorge\",\n    \"last_name\": \"Malla\",\n    \"mobile\": \"098xxxxxxx\",\n    \"address\": \"Huaquillas\"\n}",
+					"raw": "{\n    \"email\": \"jomasloja@gmail.com\",\n    \"password\": \"evertec\",\n    \"first_name\": \"Jorge\",\n    \"last_name\": \"Malla\",\n    \"document_number\": \"070xxxxxxx\",\n    \"mobile\": \"098xxxxxxx\",\n    \"address\": \"Huaquillas\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -34,6 +34,79 @@
 					"path": [
 						"api",
 						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{AUTHTOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"subtotal\": 10.00,\n    \"tax\": 0.00,\n    \"discount\": 0.00,\n    \"total\": 10.00\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/orders",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"jmallas@evertec.com\",\n    \"password\": \"evertec\",\n    \"first_name\": \"Jorge\",\n    \"last_name\": \"Malla\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/users",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"users"
 					]
 				}
 			},
@@ -74,6 +147,38 @@
 			"response": []
 		},
 		{
+			"name": "Pay Order",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{AUTHTOKEN}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/api/orders/1/pay",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"orders",
+						"1",
+						"pay"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Find Customers",
 			"request": {
 				"method": "GET",
@@ -98,7 +203,72 @@
 			"response": []
 		},
 		{
+			"name": "Find Orders",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{AUTHTOKEN}}"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/api/orders",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Users",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{AUTHTOKEN}}"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/api/users",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    if(pm.response.to.have.status(200)){",
+							"        let jsonData = JSON.parse(responseBody);",
+							"        pm.environment.set(\"AUTHTOKEN\", \"Bearer \"+jsonData[\"data\"][\"token\"]);",
+							"    }",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [

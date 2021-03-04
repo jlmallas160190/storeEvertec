@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Constants\UserType;
 use App\Models\Customer;
-
+use Exception;
 class CustomerRepository extends BaseRepository
 {
     protected $model;
@@ -53,5 +53,14 @@ class CustomerRepository extends BaseRepository
     {
         $customer = $this->model->where('id', $id)->first();
         return $customer->delete();
+    }
+
+    public function getLogged()
+    {
+        if ($mover = $this->model->where('user_id', auth()->user()->id)->first()) {
+            return $mover;
+        }
+
+        throw new Exception('Usuario inválido.');
     }
 }

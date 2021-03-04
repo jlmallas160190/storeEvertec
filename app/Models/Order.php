@@ -12,6 +12,7 @@ class Order extends BaseModel
         'customer_name',
         'customer_email',
         'customer_mobile',
+        'customer_document_number',
         'status',
         'subtotal',
         'tax',

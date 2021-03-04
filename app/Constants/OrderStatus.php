@@ -5,6 +5,7 @@ namespace App\Constants;
 class OrderStatus
 {
     const CREATED = 'CREATED';
+    const IN_PROCESS = 'IN_PROCESS';
     const PAYED = 'PAYED';
     const REJECTED = 'REJECTED';
 
@@ -12,6 +13,7 @@ class OrderStatus
     {
         return array(
             OrderStatus::CREATED,
+            OrderStatus::IN_PROCESS,
             OrderStatus::PAYED,
             OrderStatus::REJECTED,
         );

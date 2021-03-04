@@ -19,9 +19,10 @@ class CreateOrdersTable extends Migration
             $table->string('customer_name')->nullable();
             $table->string('customer_mobile')->nullable();
             $table->string('customer_email')->nullable();
+            $table->string('customer_document_number')->nullable();
             $table->bigInteger('customer_id')->unsigned()->nullable();
             $table->foreign('customer_id')->references('id')->on('customers');
-            $table->enum('status', [OrderStatus::CREATED, OrderStatus::PAYED, OrderStatus::REJECTED])->default(OrderStatus::CREATED);
+            $table->enum('status', [OrderStatus::CREATED, OrderStatus::IN_PROCESS, OrderStatus::PAYED, OrderStatus::REJECTED])->default(OrderStatus::CREATED);
             $table->decimal('subtotal', 12, 2)->nullable();
             $table->decimal('tax', 12, 2)->nullable();
             $table->decimal('discount', 12, 2)->nullable();

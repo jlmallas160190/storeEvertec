@@ -28,7 +28,9 @@ class AuthController extends Controller
 
         $user = auth()->user();
         $user->save();
-        return $this->success(new LoginResource(['token' => $token, 'user' => auth()->user()]));
+        return $this->success(new LoginResource(['token' => $token,
+            'token_type' => 'bearer',
+            'user' => auth()->user()]));
     }
 
     public function logout()

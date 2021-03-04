@@ -33,4 +33,10 @@ Route::group(['as' => 'api::'], function () {
         Route::post('', 'Api\UserController@create')->name('create');
         Route::put('', 'Api\UserController@update')->name('update');
     });
+    Route::group(['prefix' => 'orders', 'as' => 'orders::'], function () {
+        Route::get('', 'Api\OrderController@findAll')->name('findAll');
+        Route::get('{id}', 'Api\OrderController@findById')->name('findById');
+        Route::post('', 'Api\OrderController@create')->name('create');
+        Route::put('{id}/pay', 'Api\OrderController@pay')->name('pay');
+    });
 });
