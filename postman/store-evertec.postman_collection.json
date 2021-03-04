@@ -149,7 +149,7 @@
 		{
 			"name": "Pay Order",
 			"request": {
-				"method": "PUT",
+				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
@@ -173,6 +173,38 @@
 						"orders",
 						"1",
 						"pay"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Transaction Status",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{AUTHTOKEN}}"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/api/orders/34093/getTransactionStatus",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"orders",
+						"34093",
+						"getTransactionStatus"
 					]
 				}
 			},

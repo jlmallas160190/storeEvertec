@@ -3,11 +3,12 @@
 namespace App\Repositories;
 
 use App\Constants\OrderStatus;
+use App\Jobs\OrderStatusJob;
 use App\Models\Order;
 use App\Services\PlaceToPayService;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Str;
 
 class OrderRepository extends BaseRepository
 {
@@ -36,12 +37,11 @@ class OrderRepository extends BaseRepository
     public function pay($id)
     {
         $order = $this->findOrFail($id);
-        // if ($order->status != OrderStatus::CREATED) {
-        //     throw new Exception('La orden ya ha sido procesada');
-        // }
+        if ($order->status != OrderStatus::CREATED) {
+            throw new Exception('La orden ya ha sido procesada');
+        }
         /** Create payment */
         $credentials = $this->placeToPay->getCredentials();
-        $reference = Str::uuid();
         $data = [
             "auth" => $credentials,
             "buyer" => [
@@ -56,7 +56,7 @@ class OrderRepository extends BaseRepository
                     "currency" => "USD",
                 ],
             ],
-            "expiration" => Carbon::now()->addMinutes(10)->format("c"),
+            "expiration" => Carbon::now()->addMinutes(5)->format("c"),
             "returnUrl" => "https://dev.placetopay.com/redirection/sandbox/session/test_jmallas",
             "ipAddress" => "127.0.0.1",
             "userAgent" => "PlacetoPay Sandbox",
@@ -64,14 +64,17 @@ class OrderRepository extends BaseRepository
 
         $res = Http::post('https://dev.placetopay.com/redirection/api/session', $data);
         $res_json = json_decode($res);
-        $order->status = OrderStatus::IN_PROCESS;
-        $order->save();
+        if ($res_json->status->status == "OK") {
+            $order->status = OrderStatus::PENDING;
+            OrderStatusJob::dispatch($res_json->requestId, $order->id)->delay(Carbon::now()->addMinutes(1));
+            $order->save();
+        }
         return $res_json;
     }
     public function getTransactionStatus($requestId)
     {
         $credentials = $this->placeToPay->getCredentials();
-        $res = Http::post('https://dev.placetopay.com/redirection/api/session/'.$requestId, ["auth" => $credentials]);
+        $res = Http::post('https://dev.placetopay.com/redirection/api/session/' . $requestId, ["auth" => $credentials]);
         return json_decode($res);
     }
     /**
@@ -85,7 +88,7 @@ class OrderRepository extends BaseRepository
     /**
      * Fetch a order by id.
      */
-    private function findById($id)
+    public function findById($id)
     {
         return $this->model->where('id', $id)->first();
     }

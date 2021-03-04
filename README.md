@@ -19,6 +19,11 @@ App that allows making orders using placetoPay
 ## API
 
 - Import the postman collection in your local environment to create customers, the json founds in the folder postman in the root from this project.
+- Create a customer from postman
+- Authenticate from postman
+- Create order from postman.
+- Pay a orden from postman and copy in a browser the `processUrl` and continue the flow payment.
+- The backend run jobs to get the transaction status, when the transaction has been fininished automatically change the order status.
 
 ## Contributing
 

@@ -45,7 +45,7 @@
                             @case(\App\Constants\OrderStatus::CREATED)
                             <span class="label label-success bg-green">Creado</span>
                             @break
-                            @case(\App\Constants\OrderStatus::PAYED)
+                            @case(\App\Constants\OrderStatus::APPROVED)
                             <span class="label bg-aqua">Pagado</span>
                             @break
                             @case(\App\Constants\OrderStatus::REJECTED)

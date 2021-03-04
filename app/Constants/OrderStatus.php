@@ -5,17 +5,19 @@ namespace App\Constants;
 class OrderStatus
 {
     const CREATED = 'CREATED';
-    const IN_PROCESS = 'IN_PROCESS';
-    const PAYED = 'PAYED';
+    const PENDING = 'PENDING';
+    const APPROVED = 'APPROVED';
+    const FAILED = 'FAILED';
     const REJECTED = 'REJECTED';
 
     public static function get_order_status_array()
     {
         return array(
             OrderStatus::CREATED,
-            OrderStatus::IN_PROCESS,
-            OrderStatus::PAYED,
+            OrderStatus::PENDING,
+            OrderStatus::APPROVED,
             OrderStatus::REJECTED,
+            OrderStatus::FAILED,
         );
     }
 }
