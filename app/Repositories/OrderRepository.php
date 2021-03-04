@@ -4,18 +4,22 @@ namespace App\Repositories;
 
 use App\Constants\OrderStatus;
 use App\Models\Order;
-use Exception;
+use App\Services\PlaceToPayService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class OrderRepository extends BaseRepository
 {
     protected $model;
     protected $customer;
+    protected $placeToPay;
 
-    public function __construct(Order $order, CustomerRepository $customer)
+    public function __construct(Order $order, CustomerRepository $customer, PlaceToPayService $placeToPay)
     {
         $this->model = $order;
         $this->customer = $customer;
+        $this->placeToPay = $placeToPay;
     }
     public function store(array $data = [])
     {
@@ -24,33 +28,51 @@ class OrderRepository extends BaseRepository
             $data['customer_name'] = $customer->user->first_name . ' ' . $customer->user->last_name;
             $data['customer_email'] = $customer->user->email;
             $data['customer_mobile'] = $customer->user->mobile;
+            $data['customer_document_number'] = $customer->user->document_number;
         }
         $order = $this->model->create($data);
         return $order;
     }
     public function pay($id)
     {
-
         $order = $this->findOrFail($id);
-        if ($order->status != OrderStatus::CREATED) {
-            throw new Exception('La orden ya ha sido procesada');
-        }
-        $nonce = $this->generateNonce();
-        $res = Http::post('https://dev.placetopay.com/redirection/api/session',
-            ['auth' => [
-                'login' => env('PLACE_TO_PAY_LOGIN'),
-                "seed" => date('c'),
-                'nonce' => $nonce,
-                'tranKey' => env('PLACE_TO_PAY_TRANKEY')],
-                'buyer' => ['document' => $order->customer_document_number,
-                    'documentType' => 'CC',
-                    'name' => $order->customer_name],
-            ]);
-        error_log($res);
-        $order->status = OrderStatus::IN_PROCESS;
+        // if ($order->status != OrderStatus::CREATED) {
+        //     throw new Exception('La orden ya ha sido procesada');
+        // }
+        /** Create payment */
+        $credentials = $this->placeToPay->getCredentials();
+        $reference = Str::uuid();
+        $data = [
+            "auth" => $credentials,
+            "buyer" => [
+                'document' => $order->customer_document_number,
+                'documentType' => 'CC',
+                'name' => $order->customer_name,
+            ],
+            "payment" => [
+                "reference" => "test_jmallas",
+                "amount" => [
+                    "total" => $order->total,
+                    "currency" => "USD",
+                ],
+            ],
+            "expiration" => Carbon::now()->addMinutes(10)->format("c"),
+            "returnUrl" => "https://dev.placetopay.com/redirection/sandbox/session/test_jmallas",
+            "ipAddress" => "127.0.0.1",
+            "userAgent" => "PlacetoPay Sandbox",
+        ];
 
+        $res = Http::post('https://dev.placetopay.com/redirection/api/session', $data);
+        $res_json = json_decode($res);
+        $order->status = OrderStatus::IN_PROCESS;
         $order->save();
-        return $order;
+        return $res_json;
+    }
+    public function getTransactionStatus($requestId)
+    {
+        $credentials = $this->placeToPay->getCredentials();
+        $res = Http::post('https://dev.placetopay.com/redirection/api/session/'.$requestId, ["auth" => $credentials]);
+        return json_decode($res);
     }
     /**
      * Allow fetch all the orders.

@@ -37,6 +37,7 @@ Route::group(['as' => 'api::'], function () {
         Route::get('', 'Api\OrderController@findAll')->name('findAll');
         Route::get('{id}', 'Api\OrderController@findById')->name('findById');
         Route::post('', 'Api\OrderController@create')->name('create');
-        Route::put('{id}/pay', 'Api\OrderController@pay')->name('pay');
+        Route::post('{id}/pay', 'Api\OrderController@pay')->name('pay');
+        Route::post('{requestId}/getTransactionStatus', 'Api\OrderController@getTransactionStatus')->name('getTransactionStatus');
     });
 });

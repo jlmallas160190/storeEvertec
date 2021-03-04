@@ -25,7 +25,7 @@ class Order extends BaseModel
     {
         return $this->hasMany(Item::class);
     }
-    public function cusrtomer()
+    public function customer()
     {
         return $this->belongsTo(Customer::class);
     }

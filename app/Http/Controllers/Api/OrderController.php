@@ -22,6 +22,10 @@ class OrderController extends Controller
     {
         return $this->success($this->model->pay($id));
     }
+    public function getTransactionStatus($requestId)
+    {
+        return $this->success($this->model->getTransactionStatus($requestId));
+    }
     public function update(Request $request, $id)
     {
         return $this->success($this->model->update($request->all(), $id));
