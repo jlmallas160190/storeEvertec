@@ -16,6 +16,7 @@ class UserRepository extends BaseRepository
 
     public function store(array $data = [])
     {
+        $data['username'] = $data['email'];
         $data['password'] = Hash::make($data['password']);
         $user = $this->model->create($data);
         return $user;
@@ -36,17 +37,17 @@ class UserRepository extends BaseRepository
         return $user->delete();
     }
 
-    public function getAll()
+    public function findAll()
     {
         return $this->model->get();
     }
 
-    public function getById($id)
+    public function findById($id)
     {
         return $this->model->whereId($id);
     }
 
-    public function getAllByType($type)
+    public function findAllByType($type)
     {
         return $this->model->whereType($type)->get();
     }

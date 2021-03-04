@@ -27,4 +27,10 @@ Route::group(['as' => 'api::'], function () {
         Route::post('', 'Api\CustomerController@create')->name('create');
         Route::put('', 'Api\CustomerController@update')->name('update');
     });
+    Route::group(['prefix' => 'users', 'as' => 'users::'], function () {
+        Route::get('', 'Api\UserController@findAll')->name('findAll');
+        Route::get('{id}', 'Api\UserController@findById')->name('findById');
+        Route::post('', 'Api\UserController@create')->name('create');
+        Route::put('', 'Api\UserController@update')->name('update');
+    });
 });

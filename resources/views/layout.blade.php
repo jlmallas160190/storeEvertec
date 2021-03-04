@@ -1,19 +1,19 @@
 @extends('adminlte::page')
 
-@push('css')
-    <link href="{{ asset('css/custom.css') }}" rel="stylesheet"> 
-@endpush
+@section('title', 'Dashboard')
 
-@push('js')
+@section('content_header')
+    <h1>Dashboard</h1>
+@stop
+
+@section('content')
+    <p>Welcome to this beautiful admin panel.</p>
+@stop
+
+@section('css')
+    <link rel="stylesheet" href="/css/admin_custom.css">
+@stop
 
 @section('js')
-    <script>
-        $(document).ready(function () {
-            $('#table').DataTable({
-                language: {
-                    'url': '//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json'
-                }
-            });
-        });
-    </script>
+    <script> console.log('Hi!'); </script>
 @stop

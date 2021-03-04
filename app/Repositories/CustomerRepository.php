@@ -20,7 +20,6 @@ class CustomerRepository extends BaseRepository
     public function store(array $data = [])
     {
         $data['type'] = UserType::CUSTOMER;
-        $data['username'] = $data['email'];
         $user = $this->user->store($data);
         $customer = $this->model->create(['user_id' => $user->id]);
         return $customer->with(['user'])->where('id', $customer->id)->first();

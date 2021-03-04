@@ -1,27 +1,27 @@
 @extends('layout')
 
 @section('content')
-<div class="table-responsive">
-    <div class="col-xs-12 row">
-        <div class="box-header">
-            <h1 class="box-title">Órdenes</h1>
-        </div>
+<div class="col-xs-12 row">
 
-        @if(Session::has('message'))
-        <div class="alert alert-success alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            {{ Session::get('message') }}
-        </div>
-        @endif
-        @if(Session::has('error'))
-        <div class="alert alert-danger alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            {{ Session::get('error') }}
-        </div>
-        @endif
+    @if(Session::has('message'))
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        {{ Session::get('message') }}
     </div>
-    <div class="box with-border">
-        <div class="box-body table-responsive">
+    @endif
+    @if(Session::has('error'))
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        {{ Session::get('error') }}
+    </div>
+    @endif
+</div>
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Órdenes</h3>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
             <table id="table" class="table table-condensed table-hover dataTable" role="grid"
                 aria-describedby="example1_info" style="overflow-y: auto">
                 <thead>
@@ -59,10 +59,12 @@
 
                     @endforeach
                 </tbody>
-                <tfoot>
-                    <button>Crear</button>
-                </tfoot>
             </table>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="row">
+            <button class="btn btn-primary">Crear</button>
         </div>
     </div>
 </div>
