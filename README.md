@@ -27,7 +27,7 @@ App that allows making orders using placetoPay
 
 ## APP
 
-- Open the app in a browser `http://localhos:8000`
+- Open the app in a browser `http://localhost:8000`
 - Authenticate with the customer created in postman.
 - Go to order section.
 - Press the button pay in a record on the table orders.

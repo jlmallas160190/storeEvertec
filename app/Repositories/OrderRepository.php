@@ -9,6 +9,7 @@ use App\Services\PlaceToPayService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class OrderRepository extends BaseRepository
 {
@@ -43,8 +44,9 @@ class OrderRepository extends BaseRepository
         }
         /** Create payment */
         $credentials = $this->placeToPay->getCredentials();
-        $returnUrl = env("APP_URL") . env("APP_PORT") . "/orders/completed";
-        $cancelUrl = env("APP_ENV") . env("APP_PORT") . "/orders/cancel/" . $order->id;
+        $reference = Str::random(32);
+        $returnUrl = env("APP_URL").":" . env("APP_PORT") . "/orders/completed/" . $reference;
+        $cancelUrl = env("APP_URL").":" . env("APP_PORT") . "/orders/cancel/" . $order->id;
         $data = [
             "auth" => $credentials,
             "buyer" => [
@@ -53,7 +55,7 @@ class OrderRepository extends BaseRepository
                 'name' => $order->customer_name,
             ],
             "payment" => [
-                "reference" => "test_jmallas",
+                "reference" => $reference,
                 "amount" => [
                     "total" => $order->total,
                     "currency" => "USD",
@@ -66,7 +68,7 @@ class OrderRepository extends BaseRepository
             "userAgent" => "PlacetoPay Sandbox",
         ];
 
-        $res = Http::post(env("PLACE_TO_PAY_URL") . '/api/session', $data);
+        $res = Http::post("https://dev.placetopay.com/redirection/api/session", $data);
         $res_json = json_decode($res);
         if ($res_json->status->status == "OK") {
             $order->status = OrderStatus::PENDING;
