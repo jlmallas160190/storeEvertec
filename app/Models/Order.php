@@ -18,6 +18,7 @@ class Order extends BaseModel
         'tax',
         'discount',
         'total',
+        'request_id',
         'customer_id',
     ];
 

@@ -20,6 +20,7 @@ class CreateOrdersTable extends Migration
             $table->string('customer_mobile')->nullable();
             $table->string('customer_email')->nullable();
             $table->string('customer_document_number')->nullable();
+            $table->string('request_id')->nullable();
             $table->bigInteger('customer_id')->unsigned()->nullable();
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->enum('status', [OrderStatus::CREATED, OrderStatus::PENDING, OrderStatus::APPROVED, OrderStatus::REJECTED, OrderStatus::FAILED])->default(OrderStatus::CREATED);

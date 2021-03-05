@@ -10,20 +10,27 @@ App that allows making orders using placetoPay
 - Run the command composer install
 - Create the .env file in the project path
 - Generate a secret key running the command php artisan key:generate
-- Runs the command `php artisan jwt:secret` to generate the jwt secret, after copying and pasting inside the .env file.
+- Runs the command `php artisan jwt:secret` to generate the jwt secret, then copy and paste inside the .env file.
 - Install the PHP mysql php7.2-mysql
-- Modify the connection to the database updating the database.php file
 - Run the command php artisan migrate
 - Finally run the command php artisan serve.
 
 ## API
 
-- Import the postman collection in your local environment to create customers, the json founds in the folder postman in the root from this project.
-- Create a customer from postman
-- Authenticate from postman
-- Create order from postman.
-- Pay a orden from postman and copy in a browser the `processUrl` and continue the flow payment.
-- The backend run jobs to get the transaction status, when the transaction has been fininished automatically change the order status.
+- Import the postman collection in your local environment, the json founds in the folder postman in the root from this project.
+- In the collection postman  postman there are some endpoints that must are run in the following order.
+- Create a customer.
+- Login
+- Create order.
+- Pay an orden from postman and copy in a browser the `processUrl` and continue the flow payment of `PlaceToPay`.
+- When running the pay order run a job (queue) which query on the PlaceToPay server the transaction status, in this example, the transaction to complete in PlaceToPay expires in 5 minutes, then the Job change the order status that brings from the side server PlaceToPay
+
+## APP
+
+- Open the app in a browser `http://localhos:8000`
+- Authenticate with the customer created in postman.
+- Go to order section.
+- Press the button pay in a record on the table orders.
 
 ## Contributing
 

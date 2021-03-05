@@ -22,6 +22,10 @@ Route::group(['prefix' => 'customers', 'as' => 'customers:'], function () {
 
 Route::group(['prefix' => 'orders', 'as' => 'orders:'], function () {
     Route::get('index', 'Web\OrderController@index')->name('index');
+    Route::get('pay/{id}', 'Web\OrderController@pay')->name('pay');
+    Route::get('completed/{reference}', 'Web\OrderController@completed')->name('completed');
+    Route::get('cancel/{id}', 'Web\OrderController@cancel')->name('cancel');
+    Route::post('complete-pay/{id}', 'Web\OrderController@completePay')->name('completePay');
 
 });
 Auth::routes();

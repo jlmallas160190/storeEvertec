@@ -28,7 +28,13 @@
                     <tr>
                         <th>Cliente</th>
                         <th>Correo</th>
+                        <th>Teléfono</th>
+                        <th>Subtotal</th>
+                        <th>Impuesto</th>
+                        <th>Descuento</th>
+                        <th>Total</th>
                         <th>Estado</th>
+                        <th>Accciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,22 +44,47 @@
                             {{$order->customer_name}}
                         </td>
                         <td>
+                            {{$order->customer_email}}
+                        </td>
+                        <td>
                             {{$order->customer_mobile}}
+                        </td>
+                        <td>
+                            {{$order->subtotal}}
+                        </td>
+                        <td>
+                            {{$order->tax}}
+                        </td>
+                        <td>
+                            {{$order->discount}}
+                        </td>
+                        <td>
+                            {{$order->total}}
                         </td>
                         <td>
                             @switch($order->status)
                             @case(\App\Constants\OrderStatus::CREATED)
-                            <span class="label label-success bg-green">Creado</span>
+                            <span class="label label-success bg-blue">Creado</span>
+                            @break
+                            @case(\App\Constants\OrderStatus::PENDING)
+                            <span class="label label-success bg-yellow">Pendiente</span>
                             @break
                             @case(\App\Constants\OrderStatus::APPROVED)
-                            <span class="label bg-aqua">Pagado</span>
+                            <span class="label  bg-green">Pagado</span>
                             @break
                             @case(\App\Constants\OrderStatus::REJECTED)
-                            <span class="label bg-green">Rechazado</span>
+                            <span class="label bg-red">Rechazado</span>
+                            @break
+                            @case(\App\Constants\OrderStatus::FAILED)
+                            <span class="label bg-red">Fallido</span>
                             @break
                             @default
                             <span class="label bg-yellow">{{ $order->status }}</span>
                             @endswitch
+                        </td>
+                        <td>
+                            @if($order->status===\App\Constants\OrderStatus::CREATED) <a type="button"
+                                class="btn btn-success" href="pay/{{$order->id}}"><i class="fa fa-credit-card"></i>Pagar</a>@endif
                         </td>
                     </tr>
 
